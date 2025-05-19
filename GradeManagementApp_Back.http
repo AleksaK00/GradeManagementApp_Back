@@ -1,0 +1,6 @@
+@GradeManagementApp_Back_HostAddress = http://localhost:5052
+
+GET {{GradeManagementApp_Back_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
