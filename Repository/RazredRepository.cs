@@ -14,42 +14,35 @@ namespace GradeManagementApp_Back.Repository
         //Metoda za hvatanje svih razreda iz baze
         public async Task<List<GradeDTO>> GetAllGrades()
         {
-            var razrediIzBaze = await _context.Grades
+            List<GradeDTO> listaRazreda = await _context.Grades
                 .Include(g => g.Program)
                 .Include(g => g.SkolskaGodina)
                 .Include(g => g.Razred)
-                .ToListAsync();
-
-            List<GradeDTO> listaRazreda = new List<GradeDTO>();
-            foreach (var razred in razrediIzBaze)
-            {
-                GradeDTO noviRazred = new GradeDTO()
+                .Select(razredIzBaze => new GradeDTO
                 {
                     Razred = new GradeBO
                     {
-                        Id = razred.Id,
+                        Id = razredIzBaze.Id,
                         Program = new CodebookItemBO
                         {
-                            Id = razred.Program.Id,
-                            Naziv = razred.Program.Naziv
+                            Id = razredIzBaze.Program.Id,
+                            Naziv = razredIzBaze.Program.Naziv
                         },
                         RazredSifrarnik = new CodebookItemBO
                         {
-                            Id = razred.Razred.Id,
-                            Naziv = razred.Razred.Naziv
+                            Id = razredIzBaze.Razred.Id,
+                            Naziv = razredIzBaze.Razred.Naziv
                         },
                         SkolskaGodina = new CodebookItemBO
                         {
-                            Id = razred.SkolskaGodina.Id,
-                            Naziv = razred.SkolskaGodina.Naziv
+                            Id = razredIzBaze.SkolskaGodina.Id,
+                            Naziv = razredIzBaze.SkolskaGodina.Naziv
                         }
                     },
-                    UkupnoUcenika = await _context.Classes.Where(c => c.GradeId == razred.Id).Select(c => c.UkupanBrojUcenika).SumAsync(),
-                    BrojOdeljenja = await _context.Classes.Where(c => c.GradeId == razred.Id).CountAsync(),
-                };
-
-                listaRazreda.Add(noviRazred);
-            }
+                    UkupnoUcenika = razredIzBaze.Classes.Sum(c => c.UkupanBrojUcenika),
+                    BrojOdeljenja = razredIzBaze.Classes.Count()
+                })
+                .ToListAsync();
 
             return listaRazreda;
         }

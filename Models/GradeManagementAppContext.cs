@@ -21,7 +21,7 @@ public partial class GradeManagementAppContext : DbContext
 
     public virtual DbSet<Codebook> Codebooks { get; set; }
 
-    public virtual DbSet<Coodebookitem> Coodebookitems { get; set; }
+    public virtual DbSet<Codebookitem> Codebookitems { get; set; }
 
     public virtual DbSet<Grade> Grades { get; set; }
 
@@ -88,7 +88,7 @@ public partial class GradeManagementAppContext : DbContext
                 .HasMaxLength(50);
         });
 
-        modelBuilder.Entity<Coodebookitem>(entity =>
+        modelBuilder.Entity<Codebookitem>(entity =>
         {
             entity.ToTable("Coodebookitem");
 

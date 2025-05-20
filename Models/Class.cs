@@ -45,9 +45,9 @@ public partial class Class
 
     public virtual Grade Grade { get; set; }
 
-    public virtual Coodebookitem JezikNastave { get; set; }
+    public virtual Codebookitem JezikNastave { get; set; }
 
-    public virtual Coodebookitem PrviStraniJezik { get; set; }
+    public virtual Codebookitem PrviStraniJezik { get; set; }
 
-    public virtual Coodebookitem VrstaOdeljenja { get; set; }
+    public virtual Codebookitem VrstaOdeljenja { get; set; }
 }
