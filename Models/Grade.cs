@@ -15,7 +15,7 @@ public partial class Grade
 
     public int ProgramId { get; set; }
 
-    public DateTime DatumUnosa { get; set; }
+    public DateTime? DatumUnosa { get; set; }
 
     public DateTime? DatumIzmene { get; set; }
 

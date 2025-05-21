@@ -1,6 +1,5 @@
 ﻿using GradeManagementApp_Back.Models;
 using GradeManagementApp_Back.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GradeManagementApp_Back.Controllers
@@ -21,16 +20,16 @@ namespace GradeManagementApp_Back.Controllers
         [HttpGet("{tip}")]
         public async Task<IActionResult> GetAllSifrarnikStavkeTipa(string tip)
         {
-            List<CodebookItemBO> listaPrograma = new List<CodebookItemBO>();
+            List<CodebookItemBO> listaStavki = new List<CodebookItemBO>();
             try
             {
-                listaPrograma = await sifrarnikStavkaRepository.GetAllStavkeTipa(tip.Replace("_", " "));
+                listaStavki = await sifrarnikStavkaRepository.GetAllStavkeTipa(tip.Replace("_", " "));
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error");
             }
-            return Ok(listaPrograma);
+            return Ok(listaStavki);
         }
     }
 }

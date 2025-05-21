@@ -8,7 +8,7 @@ namespace GradeManagementApp_Back.Repository
     {
         private readonly GradeManagementAppContext _context = new();
 
-        //Metoda za hvatanje svih stavki iz sifrarnika datog tipa.
+        //Metoda za hvatanje svih stavki datog tipa iz sifrarnika
         public async Task<List<CodebookItemBO>> GetAllStavkeTipa(string tip)
         {
             List<CodebookItemBO> listaStavki = await _context.Codebookitems
