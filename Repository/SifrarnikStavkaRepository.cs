@@ -11,7 +11,7 @@ namespace GradeManagementApp_Back.Repository
         //Metoda za hvatanje svih stavki datog tipa iz sifrarnika
         public async Task<List<CodebookItemBO>> GetAllStavkeTipa(string tip)
         {
-            List<CodebookItemBO> listaStavki = await _context.Codebookitems
+            List<CodebookItemBO> listaStavki = await _context.Coodebookitems
                 .Include(sifStavka => sifStavka.Coodebook)
                 .Where(sifStavka => sifStavka.Coodebook.Naziv == tip)
                 .Select(stavkaIzBaze => new CodebookItemBO

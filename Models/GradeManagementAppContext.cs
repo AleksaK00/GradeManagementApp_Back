@@ -21,7 +21,7 @@ public partial class GradeManagementAppContext : DbContext
 
     public virtual DbSet<Codebook> Codebooks { get; set; }
 
-    public virtual DbSet<Codebookitem> Codebookitems { get; set; }
+    public virtual DbSet<Coodebookitem> Coodebookitems { get; set; }
 
     public virtual DbSet<Grade> Grades { get; set; }
 
@@ -29,7 +29,7 @@ public partial class GradeManagementAppContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-SRD2J1L;Initial Catalog=GradeManagementApp;Integrated Security=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-SRD2J1L;Initial Catalog=GradeManagementApp;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -38,7 +38,9 @@ public partial class GradeManagementAppContext : DbContext
             entity.ToTable("Class");
 
             entity.Property(e => e.DatumIzmene).HasColumnType("datetime");
-            entity.Property(e => e.DatumUnosa).HasColumnType("datetime");
+            entity.Property(e => e.DatumUnosa)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.GradeId).HasColumnName("GradeID");
             entity.Property(e => e.JezikNastaveId).HasColumnName("JezikNastaveID");
             entity.Property(e => e.Naziv)
@@ -66,7 +68,6 @@ public partial class GradeManagementAppContext : DbContext
 
             entity.HasOne(d => d.PrviStraniJezik).WithMany(p => p.ClassPrviStraniJeziks)
                 .HasForeignKey(d => d.PrviStraniJezikId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Class_Coodebookitem2");
 
             entity.HasOne(d => d.VrstaOdeljenja).WithMany(p => p.ClassVrstaOdeljenjas)
@@ -88,7 +89,7 @@ public partial class GradeManagementAppContext : DbContext
                 .HasMaxLength(50);
         });
 
-        modelBuilder.Entity<Codebookitem>(entity =>
+        modelBuilder.Entity<Coodebookitem>(entity =>
         {
             entity.ToTable("Coodebookitem");
 
@@ -112,7 +113,9 @@ public partial class GradeManagementAppContext : DbContext
             entity.ToTable("Grade");
 
             entity.Property(e => e.DatumIzmene).HasColumnType("datetime");
-            entity.Property(e => e.DatumUnosa).HasColumnType("datetime");
+            entity.Property(e => e.DatumUnosa)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
             entity.Property(e => e.RazredId).HasColumnName("RazredID");
             entity.Property(e => e.SkolskaGodinaId).HasColumnName("SkolskaGodinaID");
@@ -144,7 +147,7 @@ public partial class GradeManagementAppContext : DbContext
                 .HasColumnName("email");
             entity.Property(e => e.Lozinka)
                 .IsRequired()
-                .HasMaxLength(50)
+                .HasMaxLength(200)
                 .HasColumnName("lozinka");
         });
 

@@ -31,7 +31,7 @@ public partial class Class
 
     public bool DvojezicnoOdeljenje { get; set; }
 
-    public int PrviStraniJezikId { get; set; }
+    public int? PrviStraniJezikId { get; set; }
 
     public int UkupanBrojUcenika { get; set; }
 
@@ -45,9 +45,9 @@ public partial class Class
 
     public virtual Grade Grade { get; set; }
 
-    public virtual Codebookitem JezikNastave { get; set; }
+    public virtual Coodebookitem JezikNastave { get; set; }
 
-    public virtual Codebookitem PrviStraniJezik { get; set; }
+    public virtual Coodebookitem PrviStraniJezik { get; set; }
 
-    public virtual Codebookitem VrstaOdeljenja { get; set; }
+    public virtual Coodebookitem VrstaOdeljenja { get; set; }
 }

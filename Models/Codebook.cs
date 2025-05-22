@@ -15,5 +15,5 @@ public partial class Codebook
 
     public DateTime? DatumIzmene { get; set; }
 
-    public virtual ICollection<Codebookitem> Coodebookitems { get; set; } = new List<Codebookitem>();
+    public virtual ICollection<Coodebookitem> Coodebookitems { get; set; } = new List<Coodebookitem>();
 }

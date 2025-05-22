@@ -135,5 +135,22 @@ namespace GradeManagementApp_Back.Repository
                 return "Ne postoji";
             }
         }
+
+        //Metoda za brisanje razreda iz baze
+        public async Task<bool> DeleteGrade(int id)
+        {
+            Grade? razredIzBaze = await _context.Grades.FindAsync(id);
+            if (razredIzBaze != null)
+            {
+                await _context.Classes.Where(odeljenje => odeljenje.GradeId == razredIzBaze.Id).ExecuteDeleteAsync();
+                _context.Grades.Remove(razredIzBaze);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

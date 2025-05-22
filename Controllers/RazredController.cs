@@ -45,8 +45,8 @@ namespace GradeManagementApp_Back.Controllers
             }
         }
 
-    //API poziv za dodavanje novog razreda
-    [HttpPost("dodaj")]
+        //API poziv za dodavanje novog razreda
+        [HttpPost("dodaj")]
         public async Task<IActionResult> AddGrade([FromBody] GradeSubmitDTO noviRazred)
         {
             try
@@ -94,6 +94,28 @@ namespace GradeManagementApp_Back.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        
+
+        //API poziv za brisanje razreda
+        [HttpDelete("obrisi/{id}")]
+        public async Task<IActionResult> DeleteGrade(int id)
+        {
+            try
+            {
+                bool uspeh = await razredRepository.DeleteGrade(id);
+                if (uspeh)
+                {
+                    return Ok(new { message = "Uspešno je obrisan razred" });
+                }
+                else
+                {
+                    return NotFound(new { message = "Razred ne postoji" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
     }
 }

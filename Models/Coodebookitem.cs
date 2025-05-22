@@ -2,12 +2,10 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GradeManagementApp_Back.Models;
 
-[Table("Coodebookitem")]
-public partial class Codebookitem
+public partial class Coodebookitem
 {
     public int Id { get; set; }
 

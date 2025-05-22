@@ -15,15 +15,15 @@ public partial class Grade
 
     public int ProgramId { get; set; }
 
-    public DateTime? DatumUnosa { get; set; }
+    public DateTime DatumUnosa { get; set; }
 
     public DateTime? DatumIzmene { get; set; }
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 
-    public virtual Codebookitem Program { get; set; }
+    public virtual Coodebookitem Program { get; set; }
 
-    public virtual Codebookitem Razred { get; set; }
+    public virtual Coodebookitem Razred { get; set; }
 
-    public virtual Codebookitem SkolskaGodina { get; set; }
+    public virtual Coodebookitem SkolskaGodina { get; set; }
 }
