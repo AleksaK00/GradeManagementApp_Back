@@ -152,5 +152,51 @@ namespace GradeManagementApp_Back.Repository
                 return false;
             }
         }
+
+        //Metoda za hvatanje broja ucenika u skolskoj godini
+        public async Task<BrojUcenikaDTO> GetBrojUcenikaSkolska(int idSkolskeGodine)
+        {
+            BrojUcenikaDTO? brojUcenika = await _context.Classes
+                .Include(c => c.Grade)
+                .Where(c => c.Grade.SkolskaGodinaId == idSkolskeGodine)
+                .GroupBy(c => 1)
+                .Select(sviRazredi => new BrojUcenikaDTO
+                {
+                    BrojUcenika = sviRazredi.Sum(c => c.BrojUcenika),
+                    BrojUcenica = sviRazredi.Sum(c => c.BrojUcenica)
+                }).FirstOrDefaultAsync();
+
+            if (brojUcenika == null)
+            {
+                return new BrojUcenikaDTO { BrojUcenika = 0, BrojUcenica = 0 };
+            }
+            else
+            {
+                return brojUcenika;
+            }
+        }
+
+        //Metoda za hvatanje broja ucenika u razredu
+        public async Task<BrojUcenikaDTO> GetBrojUcenikaRazred(int idRazreda)
+        {
+            BrojUcenikaDTO? brojUcenika = await _context.Classes
+                .Include(c => c.Grade)
+                .Where(c => c.Grade.Id == idRazreda)
+                .GroupBy(c => 1)
+                .Select(sviRazredi => new BrojUcenikaDTO
+                {
+                    BrojUcenika = sviRazredi.Sum(c => c.BrojUcenika),
+                    BrojUcenica = sviRazredi.Sum(c => c.BrojUcenica)
+                }).FirstOrDefaultAsync();
+
+            if (brojUcenika == null)
+            {
+                return new BrojUcenikaDTO { BrojUcenika = 0, BrojUcenica = 0 };
+            }
+            else
+            {
+                return brojUcenika;
+            }
+        }
     }
 }

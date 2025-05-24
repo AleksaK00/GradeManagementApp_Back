@@ -8,9 +8,9 @@ namespace GradeManagementApp_Back.Models
 
         public int? RazredId { get; set; } = null;
 
-        public int? SkolskaGodina { get; set; }
+        public string? SkolskaGodina { get; set; }
 
-        public int? Razred { get; set; }
+        public string? Razred { get; set; }
 
         [Required, StringLength(50, MinimumLength = 1)]
         public string NazivOdeljenja { get; set; }

@@ -117,5 +117,34 @@ namespace GradeManagementApp_Back.Controllers
             }
         }
 
+        //API poziv za hvatanje broja ucenika u skolskoj godini
+        [HttpGet("brojUcenikaSkolska/{idSkolskeGodine}")]
+        public async Task<IActionResult> GetBrojUcenikaSkolska(int idSkolskeGodine)
+        {
+            BrojUcenikaDTO brojUcenika = await razredRepository.GetBrojUcenikaSkolska(idSkolskeGodine);
+            if (brojUcenika == null)
+            {
+                return NotFound(new { message = "Nema podataka o broju ucenika" });
+            }
+            else
+            {
+                return Ok(brojUcenika);
+            }
+        }
+
+        //API poziv za hvatanje broja ucenika u skolskoj godini
+        [HttpGet("brojUcenikaRazred/{idRazreda}")]
+        public async Task<IActionResult> GetBrojUcenikaRazred(int idRazreda)
+        {
+            BrojUcenikaDTO brojUcenika = await razredRepository.GetBrojUcenikaRazred(idRazreda);
+            if (brojUcenika == null)
+            {
+                return NotFound(new { message = "Nema podataka o broju ucenika" });
+            }
+            else
+            {
+                return Ok(brojUcenika);
+            }
+        }
     }
 }

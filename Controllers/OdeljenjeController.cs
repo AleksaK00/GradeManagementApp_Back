@@ -32,6 +32,28 @@ namespace GradeManagementApp_Back.Controllers
             }
         }
 
+        //Metoda za hvatanje odeljenja po id-u
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetClassById(int id)
+        {
+            try
+            {
+                ClassBO? odeljenje = await odeljenjeRepository.GetClassById(id);
+                if (odeljenje == null)
+                {
+                    return NotFound(new { message = "Odeljenje sa datim id-om nije pronadjeno" });
+                }
+                else
+                {
+                    return Ok(odeljenje);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
+        }
+
         //Metoda za dodavanje novog odeljenja u bazu
         [HttpPost("dodaj")]
         public async Task<IActionResult> AddClass([FromBody] ClassSubmitDTO novoOdeljenje)
@@ -58,6 +80,58 @@ namespace GradeManagementApp_Back.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
                 }
+            }
+        }
+
+        //Metoda za izmenu podataka o odeljenju u bazi
+        [HttpPut("izmeni/{id}")]
+        public async Task<IActionResult> UpdateClass(int id, [FromBody] ClassSubmitDTO izmenjenoOdeljenje)
+        {
+            if (izmenjenoOdeljenje == null)
+            {
+                return BadRequest(new { message = "Podaci o odeljenju nisu validni." });
+            }
+            try
+            {
+                string poruka = await odeljenjeRepository.UpdateClass(id, izmenjenoOdeljenje);
+                if (poruka == "Ne postoji")
+                {
+                    return NotFound(new { message = "Odeljenje sa datim id-om nije pronađeno." });
+                }
+                else if (poruka == "Ne promenjen")
+                {
+                    return BadRequest(new { message = "Uneti podaci su isti kao posojeći!" });
+                }
+                else if(poruka == "Ne izabrano")
+                {
+                    return BadRequest(new { message = "Nije izabran prvi strani jezik!" });
+                }
+
+                return Ok(new { message = "Odeljenje uspešno izmenjeno!" });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
+        }
+
+        //Metoda za brisanje odeljenja iz baze
+        [HttpDelete("obrisi/{id}")]
+        public async Task<IActionResult> DeleteClass(int id)
+        {
+            try
+            {
+                bool uspeh = await odeljenjeRepository.DeleteClass(id);
+                if (!uspeh)
+                {
+                    return NotFound(new { message = "Odeljenje sa datim id-om nije pronađeno." });
+                }
+                return Ok(new { message = "Odeljenje uspešno obrisano!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
             }
         }
     }

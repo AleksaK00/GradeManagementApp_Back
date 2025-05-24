@@ -10,5 +10,8 @@ namespace GradeManagementApp_Back.Repository.Interfaces
         Task<bool> addGrade(GradeSubmitDTO noviRazred);
         Task<string> EditGrade(int id, GradeSubmitDTO izmenjeniRazred);
         Task<bool> DeleteGrade(int id);
+        Task<BrojUcenikaDTO> GetBrojUcenikaRazred(int idRazreda);
+        Task<BrojUcenikaDTO> GetBrojUcenikaSkolska(int idSkolskeGodine);
+
     }
 }
