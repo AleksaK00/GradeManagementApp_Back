@@ -2,6 +2,7 @@
 using GradeManagementApp_Back.Models.DataTransferObjects;
 using GradeManagementApp_Back.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 
 namespace GradeManagementApp_Back.Repository
 {
@@ -197,6 +198,41 @@ namespace GradeManagementApp_Back.Repository
             {
                 return brojUcenika;
             }
+        }
+
+        //Metoda za uzimanje excel fajla razreda
+        public async Task<MemoryStream> CreateExcelFileGrade()
+        {
+            List<GradeDTO> razrediIzBaze = await this.GetAllGrades();
+
+            //Kreiranje Excel fajla
+            ExcelPackage.License.SetNonCommercialPersonal("Aleksa");
+            var excelFile = new ExcelPackage();
+            var worksheet = excelFile.Workbook.Worksheets.Add("Odeljenja");
+
+            //Zaglavlje kolona
+            worksheet.Cells[1, 1].Value = "ID";
+            worksheet.Cells[1, 2].Value = "Razred";
+            worksheet.Cells[1, 3].Value = "Školska Godina";
+            worksheet.Cells[1, 4].Value = "Program";
+            worksheet.Cells[1, 5].Value = "Ukupno učenika";
+            worksheet.Cells[1, 6].Value = "Broj odeljenja";
+
+            //Popunjavanje podacima
+            int red = 2;
+            foreach (GradeDTO trenutniRazred in razrediIzBaze)
+            {
+                worksheet.Cells[red, 1].Value = trenutniRazred.Razred.Id;
+                worksheet.Cells[red, 2].Value = trenutniRazred.Razred.RazredSifrarnik.Naziv;
+                worksheet.Cells[red, 3].Value = trenutniRazred.Razred.SkolskaGodina.Naziv;
+                worksheet.Cells[red, 4].Value = trenutniRazred.Razred.Program.Naziv;
+                worksheet.Cells[red, 5].Value = trenutniRazred.UkupnoUcenika;
+                worksheet.Cells[red, 6].Value = trenutniRazred.BrojOdeljenja;   
+
+                red++;
+            }
+
+            return new MemoryStream(await excelFile.GetAsByteArrayAsync());
         }
     }
 }

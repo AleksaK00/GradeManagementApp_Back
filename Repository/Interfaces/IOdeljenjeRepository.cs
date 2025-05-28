@@ -10,5 +10,6 @@ namespace GradeManagementApp_Back.Repository.Interfaces
         Task<bool> AddClass(ClassSubmitDTO novoOdeljenje);
         Task<string> UpdateClass(int id, ClassSubmitDTO izmenjenoOdeljenje);
         Task<bool> DeleteClass(int id);
+        Task<MemoryStream> CreateExcelFileClass();
     }
 }

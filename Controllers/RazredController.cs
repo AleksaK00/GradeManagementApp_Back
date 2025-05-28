@@ -11,7 +11,8 @@ namespace GradeManagementApp_Back.Controllers
     {
         RazredRepository razredRepository;
 
-        public RazredController() {
+        public RazredController()
+        {
             razredRepository = new RazredRepository();
         }
 
@@ -144,6 +145,25 @@ namespace GradeManagementApp_Back.Controllers
             else
             {
                 return Ok(brojUcenika);
+            }
+        }
+
+        //Metoda za kreiranje Excel fajla sa svim razredima
+        [HttpGet("excel")]
+        public async Task<IActionResult> CreateExcelFileGrade()
+        {
+            try
+            {
+                MemoryStream excelFile = await razredRepository.CreateExcelFileGrade();
+                if (excelFile == null)
+                {
+                    return NotFound(new { message = "Nema podataka za kreiranje Excel fajla" });
+                }
+                return File(excelFile.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Razredi.xlsx");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
             }
         }
     }

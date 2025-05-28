@@ -102,7 +102,7 @@ namespace GradeManagementApp_Back.Controllers
                 {
                     return BadRequest(new { message = "Uneti podaci su isti kao posojeći!" });
                 }
-                else if(poruka == "Ne izabrano")
+                else if (poruka == "Ne izabrano")
                 {
                     return BadRequest(new { message = "Nije izabran prvi strani jezik!" });
                 }
@@ -128,6 +128,25 @@ namespace GradeManagementApp_Back.Controllers
                     return NotFound(new { message = "Odeljenje sa datim id-om nije pronađeno." });
                 }
                 return Ok(new { message = "Odeljenje uspešno obrisano!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
+        }
+
+        //Metoda za preuzimanje excel fajla sa svim odeljenjima
+        [HttpGet("excel")]
+        public async Task<IActionResult> GetClassesExcel()
+        {
+            try
+            {
+                MemoryStream excelFile = await odeljenjeRepository.CreateExcelFileClass();
+                if (excelFile == null)
+                {
+                    return NotFound(new { message = "Nema podataka za preuzimanje." });
+                }
+                return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Odeljenja.xlsx");
             }
             catch (Exception ex)
             {

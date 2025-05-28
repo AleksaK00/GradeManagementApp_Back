@@ -12,6 +12,6 @@ namespace GradeManagementApp_Back.Repository.Interfaces
         Task<bool> DeleteGrade(int id);
         Task<BrojUcenikaDTO> GetBrojUcenikaRazred(int idRazreda);
         Task<BrojUcenikaDTO> GetBrojUcenikaSkolska(int idSkolskeGodine);
-
+        Task<MemoryStream> CreateExcelFileGrade();
     }
 }
